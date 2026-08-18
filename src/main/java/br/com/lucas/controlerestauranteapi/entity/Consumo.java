@@ -4,6 +4,7 @@ import br.com.lucas.controlerestauranteapi.enums.StatusConsumo;
 import jakarta.persistence.*;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -29,7 +30,7 @@ public class Consumo {
     private List<Pagamento> pagamentos;
 
     @OneToMany(mappedBy = "consumo")
-    private List<Pedido> pedidos;
+    private List<Pedido> pedidos = new ArrayList<>();
 
     public Long getId() {
         return id;

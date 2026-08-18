@@ -1,0 +1,37 @@
+package br.com.lucas.controlerestauranteapi.controller;
+
+import br.com.lucas.controlerestauranteapi.entity.Consumo;
+import br.com.lucas.controlerestauranteapi.entity.Mesa;
+import br.com.lucas.controlerestauranteapi.service.ConsumoService;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+
+@RestController
+public class ConsumoController {
+    private ConsumoService consumoService;
+
+    public ConsumoController(ConsumoService consumoService) {
+        this.consumoService = consumoService;
+    }
+
+    @GetMapping("/mesas/disponiveis")
+    public List<Mesa> listarMesasDisponiveis(){
+        return consumoService.listarMesasDisponiveis();
+    }
+
+//    @GetMapping("/consumos")
+//    public List<Consumo> listarConsumoAbertos(){
+//        return consumoService.listarConsumosAbertos();
+//    }
+
+    @PostMapping("/consumos")
+    public Consumo adicionarConsumo(@RequestBody Consumo consumo){
+        return consumoService.iniciarConsumo(consumo);
+    }
+
+    @DeleteMapping("/consumos/{id}")
+    public void excluirConsumo(@PathVariable Long id){
+        consumoService.excluirConsumo(id);
+    }
+}

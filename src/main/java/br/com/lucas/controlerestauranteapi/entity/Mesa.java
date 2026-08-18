@@ -1,5 +1,6 @@
 package br.com.lucas.controlerestauranteapi.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
 import java.util.ArrayList;
@@ -12,6 +13,7 @@ public class Mesa {
     private Long id;
     private Integer numero;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "mesa")
     private List<Consumo> consumos = new ArrayList<>();
 
