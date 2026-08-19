@@ -9,7 +9,7 @@ import java.util.List;
 
 @RestController
 public class ConsumoController {
-    private ConsumoService consumoService;
+    private final ConsumoService consumoService;
 
     public ConsumoController(ConsumoService consumoService) {
         this.consumoService = consumoService;
@@ -25,9 +25,9 @@ public class ConsumoController {
 //        return consumoService.listarConsumosAbertos();
 //    }
 
-    @PostMapping("/consumos")
-    public Consumo adicionarConsumo(@RequestBody Consumo consumo){
-        return consumoService.iniciarConsumo(consumo);
+    @PostMapping("/mesas/{id}/consumos")
+    public Consumo adicionarConsumo(@PathVariable Long id){
+        return consumoService.iniciarConsumo(id);
     }
 
     @DeleteMapping("/consumos/{id}")

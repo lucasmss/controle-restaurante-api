@@ -3,11 +3,15 @@ package br.com.lucas.controlerestauranteapi.service;
 import br.com.lucas.controlerestauranteapi.entity.Consumo;
 import br.com.lucas.controlerestauranteapi.entity.Mesa;
 import br.com.lucas.controlerestauranteapi.enums.StatusConsumo;
+import br.com.lucas.controlerestauranteapi.exception.MesaIndisponivelException;
 import br.com.lucas.controlerestauranteapi.repository.ConsumoRepository;
 import br.com.lucas.controlerestauranteapi.repository.MesaRepository;
+import org.springframework.http.converter.json.GsonBuilderUtils;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class ConsumoService{
@@ -34,12 +38,24 @@ public class ConsumoService{
 
     }
 
-//    public List<Consumo> listarConsumosAbertos(){
-//        return consumoRepository.findAll();
-//    }
+    public Consumo buscarConsumo(Long id){
+        return consumoRepository.findById(id).orElseThrow();
+    }
 
-    public Consumo iniciarConsumo(Consumo consumo){
-        return consumoRepository.save(consumo);
+    public Consumo iniciarConsumo(Long mesaId){
+        if(mesaEstaOcupada(mesaId)){
+            throw new MesaIndisponivelException("Mesa Indisponível");
+        }
+
+        Mesa mesa = mesaRepository.findById(mesaId).orElseThrow();
+
+        Consumo abrirConsumo = new Consumo();
+        abrirConsumo.setMesa(mesa);
+        abrirConsumo.setDataAbertura(LocalDateTime.now());
+        abrirConsumo.setStatus(StatusConsumo.ABERTO);
+        abrirConsumo.setTaxaServicoAceita(true);
+
+        return consumoRepository.save(abrirConsumo);
     }
 
     public void excluirConsumo(Long id){
