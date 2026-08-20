@@ -1,5 +1,6 @@
 package br.com.lucas.controlerestauranteapi.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
 import java.math.BigDecimal;
@@ -17,6 +18,7 @@ public class Produto {
     private BigDecimal preco;
     private boolean ativo = true;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "produto")
     private List<ItemPedido> itemPedidos = new ArrayList<>();
 

@@ -4,6 +4,9 @@ import br.com.lucas.controlerestauranteapi.enums.StatusPedido;
 import jakarta.persistence.*;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 
 @Entity
 public class Pedido {
@@ -19,6 +22,9 @@ public class Pedido {
 
     @Enumerated(EnumType.STRING)
     private StatusPedido status = StatusPedido.FEITO;
+
+    @OneToMany(mappedBy = "pedido")
+    private List<ItemPedido> itens = new ArrayList<>();
 
     public Long getId() {
         return id;
@@ -46,5 +52,13 @@ public class Pedido {
 
     public void setStatus(StatusPedido status) {
         this.status = status;
+    }
+
+    public List<ItemPedido> getItens() {
+        return itens;
+    }
+
+    public void setItens(List<ItemPedido> itens) {
+        this.itens = itens;
     }
 }

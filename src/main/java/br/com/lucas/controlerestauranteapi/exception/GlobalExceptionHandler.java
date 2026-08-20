@@ -14,5 +14,11 @@ public class GlobalExceptionHandler {
         return exception.getMessage();
     }
 
+    @ExceptionHandler(ConsumoFechadoException.class)
+    @ResponseStatus(HttpStatus.CONFLICT)
+    public String consumoFechado(ConsumoFechadoException exception){
+        return exception.getMessage();
+    }
+
 
 }

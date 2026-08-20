@@ -1,6 +1,7 @@
 package br.com.lucas.controlerestauranteapi.entity;
 
 import br.com.lucas.controlerestauranteapi.enums.StatusConsumo;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
 import java.time.LocalDateTime;
@@ -29,6 +30,7 @@ public class Consumo {
     @OneToMany(mappedBy = "consumo")
     private List<Pagamento> pagamentos;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "consumo")
     private List<Pedido> pedidos = new ArrayList<>();
 
