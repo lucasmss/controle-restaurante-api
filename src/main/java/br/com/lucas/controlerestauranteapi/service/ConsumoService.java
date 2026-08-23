@@ -1,26 +1,28 @@
 package br.com.lucas.controlerestauranteapi.service;
 
-import br.com.lucas.controlerestauranteapi.entity.Consumo;
-import br.com.lucas.controlerestauranteapi.entity.Mesa;
+import br.com.lucas.controlerestauranteapi.entity.*;
 import br.com.lucas.controlerestauranteapi.enums.StatusConsumo;
 import br.com.lucas.controlerestauranteapi.exception.MesaIndisponivelException;
-import br.com.lucas.controlerestauranteapi.repository.ConsumoRepository;
-import br.com.lucas.controlerestauranteapi.repository.MesaRepository;
-import org.springframework.http.converter.json.GsonBuilderUtils;
+import br.com.lucas.controlerestauranteapi.repository.*;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class ConsumoService{
     private final ConsumoRepository consumoRepository;
     private final MesaRepository mesaRepository;
+    private final PedidoRepository pedidoRepository;
+    private final ProdutoRepository produtoRepository;
+    private final ItemPedidoRepository itemPedidoRepository;
 
-    public ConsumoService(ConsumoRepository consumoRepository, MesaRepository mesaRepository) {
+    public ConsumoService(ConsumoRepository consumoRepository, MesaRepository mesaRepository, PedidoRepository pedidoRepository, ProdutoRepository produtoRepository, ItemPedidoRepository itemPedidoRepository) {
         this.consumoRepository = consumoRepository;
         this.mesaRepository = mesaRepository;
+        this.pedidoRepository = pedidoRepository;
+        this.produtoRepository = produtoRepository;
+        this.itemPedidoRepository = itemPedidoRepository;
     }
 
     public boolean mesaEstaOcupada(Long mesaId){
@@ -56,6 +58,38 @@ public class ConsumoService{
         abrirConsumo.setTaxaServicoAceita(true);
 
         return consumoRepository.save(abrirConsumo);
+    }
+
+    public List<Pedido> buscarPedidosDoConsumo(Long consumoId){
+        return pedidoRepository.findByConsumoId(consumoId);
+    }
+
+    public Produto buscarProdutoId(Long produtoId){
+        return produtoRepository.findById(produtoId).orElseThrow();
+    }
+
+    public ItemPedido buscarItemPedidos(Long pedidoId){
+        return itemPedidoRepository.findById(pedidoId).orElseThrow();
+    }
+
+    public Consumo fecharConsumo(Long mesaId) {
+        Consumo consumo = consumoRepository
+                .findByMesaIdAndStatus(mesaId, StatusConsumo.ABERTO)
+                .orElseThrow();
+
+        var pedidos = buscarPedidosDoConsumo(consumo.getId());
+
+        for (Pedido pedido : pedidos) {
+            for (ItemPedido item : pedido.getItens()) {
+                System.out.println(item.getQuantidade());
+                System.out.println(item.getPrecoUnitario());
+            }
+        }
+
+        consumo.setDataFechamento(LocalDateTime.now());
+        consumo.setStatus(StatusConsumo.FECHADO);
+
+        return consumoRepository.save(consumo);
     }
 
     public void excluirConsumo(Long id){
