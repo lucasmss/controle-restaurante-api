@@ -4,6 +4,7 @@ import br.com.lucas.controlerestauranteapi.enums.StatusConsumo;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -33,6 +34,12 @@ public class Consumo {
     @JsonIgnore
     @OneToMany(mappedBy = "consumo")
     private List<Pedido> pedidos = new ArrayList<>();
+
+    private BigDecimal valorConsumido;
+
+    private BigDecimal valorTaxaServico;
+
+    private BigDecimal valorTotal;
 
     public Long getId() {
         return id;
@@ -92,5 +99,29 @@ public class Consumo {
 
     public void setPedidos(List<Pedido> pedidos) {
         this.pedidos = pedidos;
+    }
+
+    public BigDecimal getValorConsumido() {
+        return valorConsumido;
+    }
+
+    public void setValorConsumido(BigDecimal valorConsumido) {
+        this.valorConsumido = valorConsumido;
+    }
+
+    public BigDecimal getValorTaxaServico() {
+        return valorTaxaServico;
+    }
+
+    public void setValorTaxaServico(BigDecimal valorTaxaServico) {
+        this.valorTaxaServico = valorTaxaServico;
+    }
+
+    public BigDecimal getValorTotal() {
+        return valorTotal;
+    }
+
+    public void setValorTotal(BigDecimal valorTotal) {
+        this.valorTotal = valorTotal;
     }
 }

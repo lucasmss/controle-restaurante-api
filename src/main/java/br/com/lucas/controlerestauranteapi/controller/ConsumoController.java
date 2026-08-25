@@ -30,6 +30,11 @@ public class ConsumoController {
         return consumoService.iniciarConsumo(id);
     }
 
+    @PutMapping("/mesas/{mesaId}/consumos")
+    public Consumo fecharConsumo(@PathVariable Long mesaId){
+        return consumoService.fecharConsumo(mesaId);
+    }
+
     @DeleteMapping("/consumos/{id}")
     public void excluirConsumo(@PathVariable Long id){
         consumoService.excluirConsumo(id);

@@ -6,6 +6,7 @@ import br.com.lucas.controlerestauranteapi.exception.MesaIndisponivelException;
 import br.com.lucas.controlerestauranteapi.repository.*;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -79,15 +80,30 @@ public class ConsumoService{
 
         var pedidos = buscarPedidosDoConsumo(consumo.getId());
 
+        BigDecimal valorConsumido = BigDecimal.ZERO;
+        BigDecimal valorTaxaServico = BigDecimal.ZERO;
+        BigDecimal valorTotal = BigDecimal.ZERO;
+
+
         for (Pedido pedido : pedidos) {
             for (ItemPedido item : pedido.getItens()) {
-                System.out.println(item.getQuantidade());
-                System.out.println(item.getPrecoUnitario());
+              var quantidade = item.getQuantidade();
+              var preco = item.getPrecoUnitario();
+
+                valorConsumido = valorConsumido.add(
+                      preco.multiply(BigDecimal.valueOf(quantidade))
+              );
             }
         }
+        if(consumo.getTaxaServicoAceita()) {
+            valorTaxaServico = valorConsumido.multiply(new BigDecimal("0.10"));
+        }
 
-        consumo.setDataFechamento(LocalDateTime.now());
-        consumo.setStatus(StatusConsumo.FECHADO);
+        valorTotal = valorConsumido.add(valorTaxaServico);
+
+        consumo.setValorTaxaServico(valorTaxaServico);
+        consumo.setValorConsumido(valorConsumido);
+        consumo.setValorTotal(valorTotal);
 
         return consumoRepository.save(consumo);
     }
