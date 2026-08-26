@@ -28,6 +28,7 @@ public class Consumo {
 
     private Boolean taxaServicoAceita = true;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "consumo")
     private List<Pagamento> pagamentos;
 

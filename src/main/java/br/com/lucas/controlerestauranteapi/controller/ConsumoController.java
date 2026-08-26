@@ -20,10 +20,10 @@ public class ConsumoController {
         return consumoService.listarMesasDisponiveis();
     }
 
-//    @GetMapping("/consumos")
-//    public List<Consumo> listarConsumoAbertos(){
-//        return consumoService.listarConsumosAbertos();
-//    }
+    @GetMapping("/mesas/{consumoId}/consumos")
+    public Consumo buscarConsumoId(@PathVariable Long consumoId){
+        return consumoService.buscarConsumo(consumoId);
+    }
 
     @PostMapping("/mesas/{id}/consumos")
     public Consumo adicionarConsumo(@PathVariable Long id){
