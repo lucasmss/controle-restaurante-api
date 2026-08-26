@@ -78,8 +78,8 @@ Atualmente o backend já possui o fluxo principal funcionando e está entrando n
 
 ### 1. Ver mesas disponíveis
 
-http
-GET /mesas/disponiveis
+### http
+### GET /mesas/disponiveis
 
 Retorna as mesas que não possuem um consumo com status ABERTO.
 
@@ -142,7 +142,7 @@ O fechamento/calculo da conta prepara os valores do consumo. A decisão final de
 5. Realizar pagamento
 POST /consumos/{consumoId}/pagamento
 
-O corpo da requisição recebe diretamente um Boolean.
+### O corpo da requisição recebe diretamente um Boolean.
 
 Com taxa:
 
@@ -204,7 +204,7 @@ Pagamento
 
 Representa o pagamento realizado para um consumo.
 
-📊 Status
+### 📊 Status
 Status do Consumo
 ABERTO
 FECHADO
@@ -212,7 +212,7 @@ Status do Pedido
 
 O pedido possui um status próprio, atualmente iniciado como:
 
-FEITO
+### FEITO
 💰 Regra da taxa de serviço
 
 A taxa de serviço é calculada em 10% do valor consumido.
@@ -236,7 +236,7 @@ true
 ou
 
 false
-🛡️ Regras de negócio
+### 🛡️ Regras de negócio
 
 O sistema já possui algumas validações importantes:
 
@@ -250,7 +250,7 @@ valorTotal
 O pagamento determina se a taxa de serviço será efetivamente cobrada.
 Após o pagamento, o consumo é fechado.
 Após o fechamento, a mesa volta a aparecer entre as mesas disponíveis.
-🗄️ Banco de dados
+### 🗄️ Banco de dados
 
 O projeto utiliza PostgreSQL.
 
@@ -267,7 +267,7 @@ Pedido 1:N ItemPedido
 Produto 1:N ItemPedido
 
 Consumo 1:N Pagamento
-🧪 Testes manuais
+### 🧪 Testes manuais
 
 O fluxo principal pode ser validado através do Postman ou outra ferramenta de requisições HTTP.
 
@@ -293,7 +293,7 @@ Abrir uma mesa já ocupada;
 Fazer pedido em consumo fechado;
 Buscar consumo inexistente;
 Realizar pagamento com consumo inexistente.
-📌 Estado atual do projeto
+### 📌 Estado atual do projeto
 Backend
 
 🟢 Fluxo principal implementado
@@ -316,13 +316,13 @@ Backend
 
 🟡 Testes finais e refinamento das exceções
 
-Frontend
+### Frontend
 
 🔴 Ainda não iniciado
 
 Próxima grande etapa do projeto: desenvolver a interface para o usuário consumir a API.
 
-🛣️ Próximos passos
+### 🛣️ Próximos passos
 Backend
 Finalizar testes dos principais fluxos
 Criar/tratar exceções de forma padronizada
@@ -332,7 +332,7 @@ Revisar endpoints
 Criar documentação da API
 Frontend
 
-Após a estabilização do backend:
+### Após a estabilização do backend:
 
 Tela de mesas
 Visualização de mesas disponíveis/ocupadas
@@ -345,7 +345,7 @@ Pagamento
 Liberação da mesa
 👨‍💻 Objetivo do projeto
 
-Projeto desenvolvido para praticar e consolidar conhecimentos em:
+### Projeto desenvolvido para praticar e consolidar conhecimentos em:
 
 Java
 Spring Boot
@@ -359,4 +359,4 @@ Tratamento de exceções
 Arquitetura em camadas
 Integração entre backend e frontend
 
-O projeto está sendo desenvolvido de forma incremental, priorizando o entendimento das regras de negócio e da arquitetura antes da implementação da interface.
+### O projeto está sendo desenvolvido de forma incremental, priorizando o entendimento das regras de negócio e da arquitetura antes da implementação da interface.
