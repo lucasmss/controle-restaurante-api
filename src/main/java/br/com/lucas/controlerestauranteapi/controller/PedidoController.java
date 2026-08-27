@@ -3,6 +3,7 @@ package br.com.lucas.controlerestauranteapi.controller;
 import br.com.lucas.controlerestauranteapi.entity.ItemPedido;
 import br.com.lucas.controlerestauranteapi.entity.Pedido;
 import br.com.lucas.controlerestauranteapi.service.PedidoService;
+import jakarta.validation.Valid;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -17,7 +18,7 @@ public class PedidoController {
     }
 
     @PostMapping("/consumos/{consumoId}/pedidos")
-    public Pedido fazerPedido(@PathVariable Long consumoId, @RequestBody Pedido pedido){
+    public Pedido fazerPedido(@Valid @PathVariable Long consumoId, @RequestBody Pedido pedido){
         return pedidoService.fazerPedido(consumoId, pedido);
     }
 }

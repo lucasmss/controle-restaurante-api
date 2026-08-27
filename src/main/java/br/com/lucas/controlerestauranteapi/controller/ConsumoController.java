@@ -3,6 +3,7 @@ package br.com.lucas.controlerestauranteapi.controller;
 import br.com.lucas.controlerestauranteapi.entity.Consumo;
 import br.com.lucas.controlerestauranteapi.entity.Mesa;
 import br.com.lucas.controlerestauranteapi.service.ConsumoService;
+import jakarta.validation.Valid;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;

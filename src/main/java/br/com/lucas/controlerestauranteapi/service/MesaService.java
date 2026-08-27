@@ -1,6 +1,7 @@
 package br.com.lucas.controlerestauranteapi.service;
 
 import br.com.lucas.controlerestauranteapi.entity.Mesa;
+import br.com.lucas.controlerestauranteapi.exception.MesaJaExisteException;
 import br.com.lucas.controlerestauranteapi.repository.MesaRepository;
 import org.springframework.stereotype.Service;
 
@@ -23,6 +24,9 @@ public class MesaService {
     }
 
     public Mesa novaMesa(Mesa mesa){
+        if(mesaRepository.existsByNumero(mesa.getNumero())){
+            throw new MesaJaExisteException("Mesa Já Cadastrada, Favor escolher Outro Número!");
+        }
         return mesaRepository.save(mesa);
     }
 

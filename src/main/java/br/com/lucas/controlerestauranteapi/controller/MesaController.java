@@ -2,6 +2,7 @@ package br.com.lucas.controlerestauranteapi.controller;
 
 import br.com.lucas.controlerestauranteapi.entity.Mesa;
 import br.com.lucas.controlerestauranteapi.service.MesaService;
+import jakarta.validation.Valid;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -25,7 +26,7 @@ public class MesaController {
     }
 
     @PostMapping("/mesas")
-    public Mesa novaMesa(@RequestBody Mesa mesa){
+    public Mesa novaMesa(@Valid @RequestBody Mesa mesa){
         return mesaService.novaMesa(mesa);
     }
 

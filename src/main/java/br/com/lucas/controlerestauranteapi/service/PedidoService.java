@@ -7,6 +7,7 @@ import br.com.lucas.controlerestauranteapi.entity.Produto;
 import br.com.lucas.controlerestauranteapi.enums.StatusConsumo;
 import br.com.lucas.controlerestauranteapi.enums.StatusPedido;
 import br.com.lucas.controlerestauranteapi.exception.ConsumoFechadoException;
+import br.com.lucas.controlerestauranteapi.exception.ConsumoNaoExisteException;
 import br.com.lucas.controlerestauranteapi.repository.ConsumoRepository;
 import br.com.lucas.controlerestauranteapi.repository.ItemPedidoRepository;
 import br.com.lucas.controlerestauranteapi.repository.PedidoRepository;
@@ -41,6 +42,11 @@ public class PedidoService{
 
     @Transactional
     public Pedido fazerPedido(Long consumoId, Pedido pedido) {
+
+        if(!consumoRepository.existsById(consumoId)){
+            throw new ConsumoNaoExisteException("ID de Consumo não Encontrado, Favor Verificar");
+        }
+
         Consumo consumo = buscarConsumoPorId(consumoId);
 
         if (consumo.getStatus() != StatusConsumo.ABERTO) {
