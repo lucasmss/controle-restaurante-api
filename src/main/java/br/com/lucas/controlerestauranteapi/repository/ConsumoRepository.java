@@ -9,5 +9,6 @@ import java.util.Optional;
 public interface ConsumoRepository extends JpaRepository<Consumo, Long> {
 
     Optional<Consumo> findByMesaIdAndStatus(Long mesaId, StatusConsumo statusConsumo);
+    Optional<Consumo> findByIdAndStatus(Long consumoId, StatusConsumo statusConsumo);
 
 }

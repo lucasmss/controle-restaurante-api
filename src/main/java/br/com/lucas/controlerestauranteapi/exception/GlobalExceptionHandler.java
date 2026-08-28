@@ -39,5 +39,11 @@ public class GlobalExceptionHandler {
         return exception.getMessage();
     }
 
+    @ExceptionHandler(PagamentoJaRealizadoException.class)
+    @ResponseStatus(HttpStatus.CONFLICT)
+    public String pagamentoJaRealizado(PagamentoJaRealizadoException exception){
+        return exception.getMessage();
+    }
+
 
 }

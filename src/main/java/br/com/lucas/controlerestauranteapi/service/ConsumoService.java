@@ -3,6 +3,7 @@ package br.com.lucas.controlerestauranteapi.service;
 import br.com.lucas.controlerestauranteapi.entity.*;
 import br.com.lucas.controlerestauranteapi.enums.StatusConsumo;
 import br.com.lucas.controlerestauranteapi.exception.MesaIndisponivelException;
+import br.com.lucas.controlerestauranteapi.exception.MesaSemConsumoException;
 import br.com.lucas.controlerestauranteapi.repository.*;
 import org.springframework.stereotype.Service;
 
@@ -68,7 +69,9 @@ public class ConsumoService{
     public Consumo fecharConsumo(Long mesaId) {
         Consumo consumo = consumoRepository
                 .findByMesaIdAndStatus(mesaId, StatusConsumo.ABERTO)
-                .orElseThrow();
+                .orElseThrow(() ->
+                        new MesaSemConsumoException("Mesa Sem Consumo Aberto")
+                );
 
         var pedidos = buscarPedidosDoConsumo(consumo.getId());
 
