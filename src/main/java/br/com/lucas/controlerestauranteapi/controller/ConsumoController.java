@@ -26,6 +26,11 @@ public class ConsumoController {
         return consumoService.buscarConsumo(consumoId);
     }
 
+    @GetMapping("/mesas/consumos")
+    public List<Consumo> listarConsumos(){
+        return consumoService.listarConsumos();
+    }
+
     @PostMapping("/mesas/{id}/consumos")
     public Consumo adicionarConsumo(@PathVariable Long id){
         return consumoService.iniciarConsumo(id);

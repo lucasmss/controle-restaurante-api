@@ -27,6 +27,10 @@ public class ConsumoService{
         this.itemPedidoRepository = itemPedidoRepository;
     }
 
+    public List<Consumo> listarConsumos(){
+        return consumoRepository.findAllByStatus(StatusConsumo.ABERTO);
+    }
+
     public boolean mesaEstaOcupada(Long mesaId){
         return consumoRepository
                 .findByMesaIdAndStatus(mesaId, StatusConsumo.ABERTO)
