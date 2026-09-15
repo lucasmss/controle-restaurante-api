@@ -2,6 +2,7 @@ package br.com.lucas.controlerestauranteapi.controller;
 
 import br.com.lucas.controlerestauranteapi.entity.Consumo;
 import br.com.lucas.controlerestauranteapi.entity.Mesa;
+import br.com.lucas.controlerestauranteapi.entity.Pedido;
 import br.com.lucas.controlerestauranteapi.service.ConsumoService;
 import jakarta.validation.Valid;
 import org.springframework.web.bind.annotation.*;
@@ -29,6 +30,11 @@ public class ConsumoController {
     @GetMapping("/mesas/consumos")
     public List<Consumo> listarConsumos(){
         return consumoService.listarConsumos();
+    }
+
+    @GetMapping("/mesas/{consumoId}/pedidos")
+    public List<Pedido> buscarPedidosDoConsumo(@PathVariable Long consumoId){
+        return consumoService.buscarPedidosDoConsumo(consumoId);
     }
 
     @PostMapping("/mesas/{id}/consumos")

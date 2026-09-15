@@ -16,15 +16,12 @@ public class ConsumoService{
     private final ConsumoRepository consumoRepository;
     private final MesaRepository mesaRepository;
     private final PedidoRepository pedidoRepository;
-    private final ProdutoRepository produtoRepository;
-    private final ItemPedidoRepository itemPedidoRepository;
 
-    public ConsumoService(ConsumoRepository consumoRepository, MesaRepository mesaRepository, PedidoRepository pedidoRepository, ProdutoRepository produtoRepository, ItemPedidoRepository itemPedidoRepository) {
+
+    public ConsumoService(ConsumoRepository consumoRepository, MesaRepository mesaRepository, PedidoRepository pedidoRepository) {
         this.consumoRepository = consumoRepository;
         this.mesaRepository = mesaRepository;
         this.pedidoRepository = pedidoRepository;
-        this.produtoRepository = produtoRepository;
-        this.itemPedidoRepository = itemPedidoRepository;
     }
 
     public List<Consumo> listarConsumos(){
