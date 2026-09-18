@@ -4,10 +4,7 @@ import br.com.lucas.controlerestauranteapi.entity.ItemPedido;
 import br.com.lucas.controlerestauranteapi.entity.Pedido;
 import br.com.lucas.controlerestauranteapi.service.PedidoService;
 import jakarta.validation.Valid;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 public class PedidoController {
@@ -20,5 +17,15 @@ public class PedidoController {
     @PostMapping("/consumos/{consumoId}/pedidos")
     public Pedido fazerPedido(@Valid @PathVariable Long consumoId, @RequestBody Pedido pedido){
         return pedidoService.fazerPedido(consumoId, pedido);
+    }
+
+    @PutMapping("/pedidos/pedido")
+    public Pedido atualizarPedido(@RequestBody Pedido pedido){
+        return pedidoService.atualizarPedido(pedido);
+    }
+
+    @DeleteMapping("/pedidos/{pedidoId}")
+    public void removerItem(@PathVariable Long pedidoId){
+        pedidoService.removerPedido(pedidoId);
     }
 }

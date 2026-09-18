@@ -20,6 +20,11 @@ public class ItemPedido {
     @JoinColumn(name = "produto_id")
     private Produto produto;
 
+    @JsonIgnore
+    @ManyToOne
+    @JoinColumn(name = "consumo_id")
+    private Consumo consumo;
+
     private Integer quantidade;
 
     private BigDecimal precoUnitario;
@@ -50,6 +55,18 @@ public class ItemPedido {
 
     public void setQuantidade(Integer quantidade) {
         this.quantidade = quantidade;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public Consumo getConsumo() {
+        return consumo;
+    }
+
+    public void setConsumo(Consumo consumo) {
+        this.consumo = consumo;
     }
 
     public BigDecimal getPrecoUnitario() {

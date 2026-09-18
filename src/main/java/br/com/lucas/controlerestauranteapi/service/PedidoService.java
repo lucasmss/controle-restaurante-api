@@ -71,6 +71,7 @@ public class PedidoService{
             itemPedido.setPedido(fazerPedido);
             itemPedido.setProduto(produto);
             itemPedido.setQuantidade(item.getQuantidade());
+            itemPedido.setConsumo(consumo);
             itemPedido.setPrecoUnitario(produto.getPreco());
 
             itemPedidoRepository.save(itemPedido);
@@ -81,4 +82,10 @@ public class PedidoService{
         fazerPedido.setItens(itens);
         return fazerPedido;
     }
+
+    public Pedido atualizarPedido(Pedido pedido){
+        return pedidoRepository.save(pedido);
+    }
+
+    public void removerPedido(Long id){pedidoRepository.deleteById(id);}
 }
