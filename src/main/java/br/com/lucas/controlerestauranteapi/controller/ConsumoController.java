@@ -8,6 +8,7 @@ import jakarta.validation.Valid;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 public class ConsumoController {
@@ -16,6 +17,9 @@ public class ConsumoController {
     public ConsumoController(ConsumoService consumoService) {
         this.consumoService = consumoService;
     }
+
+    @GetMapping("/mesas/{mesaId}/consumo")
+    public Consumo buscarConsumoPorMesaId(@PathVariable Long mesaId){return consumoService.buscarConsumoPorMesaId(mesaId);}
 
     @GetMapping("/mesas/disponiveis")
     public List<Mesa> listarMesasDisponiveis(){

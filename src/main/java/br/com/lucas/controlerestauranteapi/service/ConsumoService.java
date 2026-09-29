@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class ConsumoService{
@@ -102,6 +103,10 @@ public class ConsumoService{
         consumo.setValorTotal(valorTotal);
 
         return consumoRepository.save(consumo);
+    }
+
+    public Consumo buscarConsumoPorMesaId(Long mesaId){
+        return consumoRepository.findByMesaId(mesaId);
     }
 
     public void excluirConsumo(Long id){
