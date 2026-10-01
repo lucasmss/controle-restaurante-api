@@ -46,9 +46,9 @@ public class ConsumoController {
         return consumoService.iniciarConsumo(id);
     }
 
-    @PutMapping("/mesas/{mesaId}/consumos")
-    public Consumo fecharConsumo(@PathVariable Long mesaId){
-        return consumoService.fecharConsumo(mesaId);
+    @PutMapping("/mesas/{mesaId}/consumo")
+    public Consumo atualizarValorConsumo(@PathVariable Long mesaId){
+        return consumoService.atualizarValorConsumo(mesaId);
     }
 
     @DeleteMapping("/consumos/{id}")

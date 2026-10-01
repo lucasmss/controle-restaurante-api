@@ -68,7 +68,7 @@ public class ConsumoService{
         return pedidoRepository.findByConsumoId(consumoId);
     }
 
-    public Consumo fecharConsumo(Long mesaId) {
+    public Consumo atualizarValorConsumo(Long mesaId) {
         Consumo consumo = consumoRepository
                 .findByMesaIdAndStatus(mesaId, StatusConsumo.ABERTO)
                 .orElseThrow(() ->
