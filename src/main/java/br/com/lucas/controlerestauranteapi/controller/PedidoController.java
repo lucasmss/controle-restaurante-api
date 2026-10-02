@@ -24,6 +24,11 @@ public class PedidoController {
         return pedidoService.atualizarPedido(pedido);
     }
 
+    @PutMapping("/itemPedido/{itemPedidoId}/atualizarItemPedido")
+    public ItemPedido atualizarItemPedido(@PathVariable Long itemPedidoId, @RequestBody ItemPedido itemPedido){
+        return pedidoService.atualizarItemPedido(itemPedidoId, itemPedido);
+    }
+
     @DeleteMapping("/pedidos/{pedidoId}")
     public void removerItem(@PathVariable Long pedidoId){
         pedidoService.removerPedido(pedidoId);

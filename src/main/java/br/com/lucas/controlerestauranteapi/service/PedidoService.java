@@ -13,6 +13,7 @@ import br.com.lucas.controlerestauranteapi.repository.ItemPedidoRepository;
 import br.com.lucas.controlerestauranteapi.repository.PedidoRepository;
 import br.com.lucas.controlerestauranteapi.repository.ProdutoRepository;
 import jakarta.transaction.Transactional;
+import jdk.swing.interop.SwingInterOpUtils;
 import org.springframework.stereotype.Service;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -39,6 +40,8 @@ public class PedidoService{
     public Produto buscarProdutoPorId(Long produtoId){
         return produtoRepository.findById(produtoId).orElseThrow();
     }
+
+    public ItemPedido buscarItemPedidoPorId(Long itemPedidoId){ return itemPedidoRepository.findById(itemPedidoId).orElseThrow();}
 
     @Transactional
     public Pedido fazerPedido(Long consumoId, Pedido pedido) {
@@ -81,6 +84,15 @@ public class PedidoService{
 
         fazerPedido.setItens(itens);
         return fazerPedido;
+    }
+
+    public ItemPedido atualizarItemPedido (Long itemPedidoId, ItemPedido itemPedido){
+
+       var existe = itemPedidoRepository.findById(itemPedidoId).orElseThrow();
+           existe.setQuantidade(itemPedido.getQuantidade());
+           existe.setProduto(itemPedido.getProduto());
+
+           return itemPedidoRepository.save(existe);
     }
 
     public Pedido atualizarPedido(Pedido pedido){
