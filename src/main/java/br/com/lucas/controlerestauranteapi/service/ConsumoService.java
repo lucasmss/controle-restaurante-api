@@ -105,8 +105,8 @@ public class ConsumoService{
         return consumoRepository.save(consumo);
     }
 
-    public Consumo buscarConsumoPorMesaId(Long mesaId){
-        return consumoRepository.findByMesaId(mesaId);
+    public Optional<Consumo> buscarConsumoPorMesaId(Long mesaId){
+        return consumoRepository.findByMesaIdAndStatus(mesaId, StatusConsumo.ABERTO);
     }
 
     public void excluirConsumo(Long id){

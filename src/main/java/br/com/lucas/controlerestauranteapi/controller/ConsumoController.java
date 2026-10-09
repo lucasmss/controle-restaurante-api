@@ -20,7 +20,7 @@ public class ConsumoController {
     }
 
     @GetMapping("/mesas/{mesaId}/consumo")
-    public Consumo buscarConsumoPorMesaId(@PathVariable Long mesaId){return consumoService.buscarConsumoPorMesaId(mesaId);}
+    public Optional<Consumo> buscarConsumoPorMesaId(@PathVariable Long mesaId){return consumoService.buscarConsumoPorMesaId(mesaId);}
 
     @GetMapping("/mesas/disponiveis")
     public List<Mesa> listarMesasDisponiveis(){
