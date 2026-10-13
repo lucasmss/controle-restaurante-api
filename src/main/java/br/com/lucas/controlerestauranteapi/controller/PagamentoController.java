@@ -14,7 +14,7 @@ public class PagamentoController {
     }
 
     @PostMapping("/consumos/{consumoId}/pagamento")
-    public Pagamento fazerPagamento(@Valid @PathVariable Long consumoId, @RequestBody Boolean taxaServico){
+    public Pagamento fazerPagamento(@Valid @PathVariable Long consumoId, @RequestBody boolean taxaServico){
         return pagamentoService.fazerPagamento(consumoId, taxaServico);
     }
 }

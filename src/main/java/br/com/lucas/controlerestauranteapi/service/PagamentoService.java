@@ -23,7 +23,7 @@ public class PagamentoService {
     }
 
     @Transactional
-    public Pagamento fazerPagamento(Long consumoId, Boolean taxaServico){
+    public Pagamento fazerPagamento(Long consumoId, boolean taxaServico){
         Consumo consumo = consumoRepository.findById(consumoId).orElseThrow(() ->
                 new ConsumoNaoExisteException("Consumo Não Existe!"));
 
@@ -36,7 +36,7 @@ public class PagamentoService {
         pagamento.setConsumo(consumo);
         pagamento.setDataPagamento(LocalDateTime.now());
 
-        if (Boolean.TRUE.equals(taxaServico)) {
+        if (taxaServico) {
             pagamento.setValor(consumo.getValorTotal());
         } else {
             pagamento.setValor(consumo.getValorConsumido());
