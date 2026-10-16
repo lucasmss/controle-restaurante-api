@@ -35,8 +35,13 @@ public class MesaController {
         return mesaService.atualizarMesa(id, mesa);
     }
 
+    @GetMapping("/mesa/{mesaNumero}")
+    public Mesa buscarMesaNumero(@PathVariable Integer mesaNumero){
+        return mesaService.buscarMesaNumero(mesaNumero);
+    }
+
     @DeleteMapping("mesas/{id}")
-    public void excluirMesa(@PathVariable Long id){
+    public void excluirMesa(@Valid @PathVariable Long id){
         mesaService.excluirMesa(id);
     }
 

@@ -1,18 +1,25 @@
 package br.com.lucas.controlerestauranteapi.service;
 
+import br.com.lucas.controlerestauranteapi.entity.Consumo;
 import br.com.lucas.controlerestauranteapi.entity.Mesa;
+import br.com.lucas.controlerestauranteapi.enums.StatusConsumo;
+import br.com.lucas.controlerestauranteapi.exception.MesaIndisponivelException;
 import br.com.lucas.controlerestauranteapi.exception.MesaJaExisteException;
+import br.com.lucas.controlerestauranteapi.repository.ConsumoRepository;
 import br.com.lucas.controlerestauranteapi.repository.MesaRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class MesaService {
     private final MesaRepository mesaRepository;
+    private final ConsumoRepository consumoRepository;
 
-    public MesaService(MesaRepository mesaRepository){
+    public MesaService(MesaRepository mesaRepository, ConsumoRepository consumoRepository){
         this.mesaRepository = mesaRepository;
+        this.consumoRepository = consumoRepository;
     }
 
     public List<Mesa> listarTodas(){
@@ -36,7 +43,23 @@ public class MesaService {
         return mesaRepository.save(mesaExistente);
     }
 
+    public Mesa buscarMesaNumero(Integer numeroMesa){
+        if (mesaRepository.existsByNumero(numeroMesa)) {
+            return mesaRepository.findMesaByNumero(numeroMesa);
+        }else {
+            throw new MesaIndisponivelException("Número Incorreto ou Mesa Não Existe");
+        }
+    }
+
     public void excluirMesa(Long id){
-        mesaRepository.deleteById(id);
+
+      Optional<Consumo> mesaComConsumoAberto = consumoRepository.findByMesaIdAndStatus(id, StatusConsumo.ABERTO);
+
+      if (mesaComConsumoAberto.isEmpty()) {
+          mesaRepository.deleteById(id);
+      }else {
+          throw new MesaIndisponivelException("Mesa Com Consumo Aberto");
+      }
+
     }
 }

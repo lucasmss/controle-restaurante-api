@@ -18,7 +18,11 @@ public class Mesa {
     private Integer numero;
 
     @JsonIgnore
-    @OneToMany(mappedBy = "mesa")
+    @OneToMany(
+            mappedBy = "mesa",
+            cascade = CascadeType.ALL,
+            orphanRemoval = true
+    )
     private List<Consumo> consumos = new ArrayList<>();
 
     public Long getId() {

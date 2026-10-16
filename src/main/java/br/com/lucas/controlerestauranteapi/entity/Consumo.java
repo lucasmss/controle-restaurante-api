@@ -29,11 +29,19 @@ public class Consumo {
     private Boolean taxaServicoAceita = true;
 
     @JsonIgnore
-    @OneToMany(mappedBy = "consumo")
+    @OneToMany(
+            mappedBy = "consumo",
+            cascade = CascadeType.ALL,
+            orphanRemoval = true
+    )
     private List<Pagamento> pagamentos;
 
     @JsonIgnore
-    @OneToMany(mappedBy = "consumo")
+    @OneToMany(
+            mappedBy = "consumo",
+            cascade = CascadeType.ALL,
+            orphanRemoval = true
+    )
     private List<Pedido> pedidos = new ArrayList<>();
 
     private BigDecimal valorConsumido;

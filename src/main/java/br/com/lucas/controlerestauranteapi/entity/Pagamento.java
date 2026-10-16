@@ -12,7 +12,11 @@ public class Pagamento {
     private Long id;
 
     @ManyToOne
-    @JoinColumn(name= "consumo_id", unique = true, nullable = false)
+    @JoinColumn(
+            name= "consumo_id",
+            unique = true,
+            nullable = false
+    )
     private Consumo consumo;
 
     private BigDecimal valor;
