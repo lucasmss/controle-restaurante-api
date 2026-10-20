@@ -3,6 +3,7 @@ package br.com.lucas.controlerestauranteapi.service;
 import br.com.lucas.controlerestauranteapi.entity.Consumo;
 import br.com.lucas.controlerestauranteapi.entity.Pagamento;
 import br.com.lucas.controlerestauranteapi.enums.StatusConsumo;
+import br.com.lucas.controlerestauranteapi.exception.ConsumoNaoExisteException;
 import br.com.lucas.controlerestauranteapi.repository.ConsumoRepository;
 import br.com.lucas.controlerestauranteapi.repository.PagamentoRepository;
 import org.junit.jupiter.api.Test;
@@ -14,11 +15,9 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import java.math.BigDecimal;
 import java.util.Optional;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
 public class PagamentoServiceTeste {
@@ -93,5 +92,23 @@ public class PagamentoServiceTeste {
         verify(consumoRepository).save(consumo);
 
         verify(pagamentoRepository).save(any(Pagamento.class));
+    }
+
+    @Test
+    void deveLancarExcecaoQuandoConsumoNaoExiste(){
+
+        Consumo consumo = new Consumo();
+
+        when(consumoRepository.findById(99L))
+                .thenReturn(Optional.empty());
+
+        assertThrows(ConsumoNaoExisteException.class, () -> pagamentoService.fazerPagamento(99L, false));
+
+        verify(consumoRepository, never())
+                .save(any(Consumo.class));
+
+        verify(pagamentoRepository, never())
+                .save(any(Pagamento.class));
+
     }
 }
