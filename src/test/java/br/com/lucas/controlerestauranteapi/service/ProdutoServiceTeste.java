@@ -11,10 +11,8 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import java.math.BigDecimal;
 import java.util.Optional;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
+import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
 public class ProdutoServiceTeste {
@@ -45,5 +43,17 @@ public class ProdutoServiceTeste {
         assertEquals(produto, produtoService.atualizarProduto(1L, produto));
 
         verify(produtoRepository).save(produto);
+    }
+
+    @Test
+    void deveLancarExcecaoQuandoProdutoNaoEncontrado(){
+        Produto produto = new Produto();
+
+        when(produtoRepository.findById(99L))
+                .thenReturn(Optional.empty());
+
+        assertThrows(Exception.class, ()-> produtoService.atualizarProduto(99L, produto));
+
+        verify(produtoRepository, never()).save(any(Produto.class));
     }
 }
