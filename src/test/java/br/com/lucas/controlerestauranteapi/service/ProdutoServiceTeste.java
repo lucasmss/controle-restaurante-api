@@ -25,24 +25,34 @@ public class ProdutoServiceTeste {
 
     @Test
     void deveAtualizarProduto(){
-        Produto produto = new Produto();
+        Produto produtoExistente = new Produto();
 
-        produto.setAtivo(true);
-        produto.setName("Teste Item");
-        produto.setCodigo(1);
-        produto.setPreco(new BigDecimal("2.50"));
+        produtoExistente.setAtivo(true);
+        produtoExistente.setName("Teste Item");
+        produtoExistente.setCodigo(1);
+        produtoExistente.setPreco(new BigDecimal("2.50"));
 
-        when(produtoRepository.save(produto))
-                .thenReturn(produto);
+        Produto produtoAtualizado = new Produto();
+
+        produtoAtualizado.setAtivo(true);
+        produtoAtualizado.setName("Café Especial");
+        produtoAtualizado.setCodigo(1);
+        produtoAtualizado.setPreco(new BigDecimal("3.50"));
 
         when(produtoRepository.findById(1L))
-                .thenReturn(Optional.of(produto));
+                .thenReturn(Optional.of(produtoExistente));
 
-        assertNotNull(produto);
+        when(produtoRepository.save(any(Produto.class)))
+                .thenAnswer(i -> i.getArgument(0));
 
-        assertEquals(produto, produtoService.atualizarProduto(1L, produto));
+        Produto resultado = produtoService.atualizarProduto(1L, produtoAtualizado);
 
-        verify(produtoRepository).save(produto);
+        assertNotNull(resultado);
+        assertSame(produtoExistente, resultado);
+        assertEquals("Café Especial", resultado.getName());
+
+        verify(produtoRepository).findById(1L);
+        verify(produtoRepository).save(produtoExistente);
     }
 
     @Test

@@ -97,8 +97,6 @@ public class PagamentoServiceTeste {
     @Test
     void deveLancarExcecaoQuandoConsumoNaoExiste(){
 
-        Consumo consumo = new Consumo();
-
         when(consumoRepository.findById(99L))
                 .thenReturn(Optional.empty());
 
