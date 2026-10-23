@@ -2,20 +2,19 @@ package br.com.lucas.controlerestauranteapi.service;
 
 import br.com.lucas.controlerestauranteapi.entity.*;
 import br.com.lucas.controlerestauranteapi.enums.StatusConsumo;
-import br.com.lucas.controlerestauranteapi.enums.StatusPedido;
+import br.com.lucas.controlerestauranteapi.exception.ConsumoNaoExisteException;
 import br.com.lucas.controlerestauranteapi.repository.ConsumoRepository;
 import br.com.lucas.controlerestauranteapi.repository.ItemPedidoRepository;
 import br.com.lucas.controlerestauranteapi.repository.PedidoRepository;
 import br.com.lucas.controlerestauranteapi.repository.ProdutoRepository;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.junit.jupiter.api.function.Executable;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.math.BigDecimal;
-import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -40,7 +39,6 @@ public class PedidoServiceTeste {
 
     @InjectMocks
     private PedidoService pedidoService;
-
 
     @Test
     void deveAdicionarPedido() {
@@ -109,5 +107,23 @@ public class PedidoServiceTeste {
         verify(pedidoRepository).save(any(Pedido.class));
         verify(itemPedidoRepository).save(any(ItemPedido.class));
 
+    }
+
+    @Test
+    void deveLancarExecaoConsumoNaoEncontrado() {
+
+        when(consumoRepository.existsById(9L))
+                .thenReturn(false);
+
+        Pedido pedidoEntrada = new Pedido();
+
+        assertThrows(
+                ConsumoNaoExisteException.class,
+                () ->  pedidoService.fazerPedido(9L, pedidoEntrada) );
+
+        verify(consumoRepository).existsById(9L);
+        verify(consumoRepository, never()).findById(9L);
+        verify(pedidoRepository, never()).save(any(Pedido.class));
+        verify(itemPedidoRepository, never()).save(any(ItemPedido.class));
     }
 }
