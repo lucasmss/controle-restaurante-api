@@ -3,6 +3,7 @@ package br.com.lucas.controlerestauranteapi.service;
 import br.com.lucas.controlerestauranteapi.entity.Consumo;
 import br.com.lucas.controlerestauranteapi.entity.Mesa;
 import br.com.lucas.controlerestauranteapi.enums.StatusConsumo;
+import br.com.lucas.controlerestauranteapi.exception.MesaIndisponivelException;
 import br.com.lucas.controlerestauranteapi.repository.ConsumoRepository;
 import br.com.lucas.controlerestauranteapi.repository.MesaRepository;
 import org.junit.jupiter.api.Test;
@@ -16,8 +17,7 @@ import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
 public class ConsumoServiceTeste {
@@ -42,9 +42,6 @@ public class ConsumoServiceTeste {
         when(consumoRepository.findByMesaIdAndStatus(1L, StatusConsumo.ABERTO))
                 .thenReturn(Optional.empty());
 
-        when(mesaRepository.findById(1L))
-                .thenReturn(Optional.of(mesa));
-
         when(consumoRepository.save(any(Consumo.class)))
                 .thenAnswer(i -> i.getArgument(0));
 
@@ -60,7 +57,18 @@ public class ConsumoServiceTeste {
     }
 
     @Test
-    void deveLancarExcecaoMesaSemConsumoAberto(){
+    void deveLancarExcecaoQuandoMesaJaEstaOcupada(){
+
+        Consumo consumoAberto = new Consumo();
+
+        when(consumoRepository.findByMesaIdAndStatus(2L, StatusConsumo.ABERTO))
+                .thenReturn(Optional.of(consumoAberto));
+
+        assertThrows(MesaIndisponivelException.class, () -> consumoService.iniciarConsumo(2L));
+
+        verify(consumoRepository).findByMesaIdAndStatus(2L, StatusConsumo.ABERTO);
+        verify(mesaRepository, never()).findById(anyLong());
+        verify(consumoRepository, never()).save(any(Consumo.class));
 
     }
 }
