@@ -3,6 +3,7 @@ package br.com.lucas.controlerestauranteapi.service;
 import br.com.lucas.controlerestauranteapi.entity.*;
 import br.com.lucas.controlerestauranteapi.enums.StatusConsumo;
 import br.com.lucas.controlerestauranteapi.exception.MesaIndisponivelException;
+import br.com.lucas.controlerestauranteapi.exception.MesaSemConsumoException;
 import br.com.lucas.controlerestauranteapi.repository.ConsumoRepository;
 import br.com.lucas.controlerestauranteapi.repository.ItemPedidoRepository;
 import br.com.lucas.controlerestauranteapi.repository.MesaRepository;
@@ -165,5 +166,20 @@ public class ConsumoServiceTeste {
         verify(consumoRepository)
                 .save(consumoExistente);
 
+    }
+
+    @Test
+    void deveLancarExcecaoMesaSemConsumoAberto(){
+
+        when(consumoRepository.findByMesaIdAndStatus(2L, StatusConsumo.ABERTO))
+                .thenReturn(Optional.empty());
+
+        MesaSemConsumoException excecao = assertThrows(MesaSemConsumoException.class, () -> consumoService.atualizarValorConsumo(2L));
+
+        assertEquals("Mesa Sem Consumo Aberto", excecao.getMessage());
+
+        verify(consumoRepository).findByMesaIdAndStatus(2L, StatusConsumo.ABERTO);
+        verify(consumoRepository, never()).save(any(Consumo.class));
+        verifyNoInteractions(pedidoRepository);
     }
 }
